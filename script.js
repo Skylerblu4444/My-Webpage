@@ -13,11 +13,20 @@ document.querySelectorAll('.nav-menu a').forEach(anchor => {
 });
 
 // Form Submission Feedback
-document.querySelector('.contact-form').addEventListener('submit', function(e) {
+document.querySelector('form[name="contact"]').addEventListener('submit', function(e) {
     e.preventDefault();
-    const subject = document.getElementById('subject').value;
-    alert(`Thanks for your message about "${subject}"! I’ll get back to you soon.`);
-    this.reset();
+    const form = this;
+    const data = new FormData(form);
+    fetch('/', {
+        method: 'POST',
+        body: data
+    })
+    .then(() => {
+        const subject = document.getElementById('subject').value;
+        alert(`Thanks for your message about "${subject}"! I’ll get back to you soon.`);
+        form.reset();
+    })
+    .catch(error => console.error('Error:', error));
 });
 
 // Animate Elements on Scroll
